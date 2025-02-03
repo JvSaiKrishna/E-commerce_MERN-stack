@@ -1,0 +1,16 @@
+.productsHeader-producysSection-container{
+    /* margin-top: 30px; */
+    display: flex;
+    flex-direction: column;
+    
+
+}
+@media screen and (min-width:900px) {
+
+    .productsHeader-producysSection-container-clicked{
+        /* margin-top: 30px; */
+        display: flex;
+    
+    }
+}
+    

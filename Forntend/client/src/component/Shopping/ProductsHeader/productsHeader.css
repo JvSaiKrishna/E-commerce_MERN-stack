@@ -1,0 +1,268 @@
+.products-header-container {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    /* margin-right: 40px; */
+    flex-shrink: 1;
+    
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5), -5px -5px 10px rgba(255, 255, 255, 0.5);
+     
+      
+}
+
+.all-product-container {
+    display: flex;
+    align-items: center;
+}
+
+.three-lines-btn {
+    border: 0px;
+    background-color: transparent;
+    margin-right: 10px;
+    width: 200px;
+}
+
+.three-lines {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+}
+
+@media screen and (min-width: 700px) and (max-width:991px) {
+    .three-lines {
+        height: 30px;
+    }
+}
+
+@media screen and (min-width:991px) {
+    .three-lines {
+        height: 40px;
+    }
+}
+
+.all-products-title {
+    width: px;
+    font-family: "Roboto";
+    color: #475569;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+@media screen and (min-width: 700px) and (max-width:991px) {
+    .all-products-title {
+        font-size: 15px;
+    }
+}
+
+@media screen and (min-width:991px) {
+    .all-products-title {
+        font-size: 25px;
+    }
+}
+
+.filter {
+    /* width: 100px; */
+    display: flex;
+    align-items: center;
+}
+
+/* .filter-mobile{
+    display: none;
+} */
+.filter-desktop {
+    display: none;
+}
+
+
+.sort-by-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.sort-by {
+    /* margin-left: 10px; */
+    margin-right: 10px;
+
+    font-family: "Roboto";
+    color: #475569;
+
+    font-size: 14px;
+    
+
+}
+
+.filter-select {
+    font-family: "Roboto";
+    color: #475569;
+
+    font-size: 15px;
+    border: 0px;
+    font-weight: 600;
+    outline: none;
+}
+
+@media screen and (max-width:425px) {
+    .filter-mobile{
+        display: none;
+    }
+    .filter-desktop{
+        margin-top: 20px;
+        display: block;
+    }
+    
+}
+
+@media screen and (min-width: 700px) and (max-width:991px) {
+    .sort-by-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .sort-by {
+        font-size: 15px;
+    }
+
+    .filter-select {
+        font-size: 15px;
+    }
+}
+@media screen and (min-width:900px) {
+    .filter-mobile{
+        display: none;
+    }
+    .filter-desktop{
+        margin-top: 20px;
+        display: block;
+    }
+    
+}
+
+@media screen and (min-width:991px) {
+    .sort-by-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .sort-by {
+        font-size: 13px;
+    }
+
+    .filter-select {
+        font-size: 13px;
+    }
+
+    
+
+}
+
+.search-container {
+    border-radius: 10px;
+    background-color: #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.search {
+    width: 90%;
+    height: 35px;
+    border: 0px;
+    font-family: "Roboto";
+    font-size: 17px;
+    background-color: transparent;
+    padding-left: 20px;
+    outline: none;
+}
+
+.search-img {
+    width: 17px;
+    height: 17px;
+    margin-right: 15px;
+
+}
+
+.heading {
+    margin-top: 20px;
+    font-family: "Roboto";
+    font-size: 20px;
+}
+
+.categories-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.category-btns {
+    border: 0px;
+    font-family: "Roboto";
+    font-size: 17px;
+    color: #64748b;
+    margin-top: 15px;
+    background-color: transparent;
+    cursor: pointer;
+
+}
+
+.coloring-category-btn{
+    font-weight: bold;
+    font-size: 20px;
+    color: #0967d2;
+}
+
+
+.ratings-container {
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.rating-btns {
+    border: 0px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+
+}
+.coloring-rating-btn{
+    color: #0967d2;
+    
+}
+
+.rating-img {
+    width: 190px;
+    margin-right: 10px;
+}
+
+
+.and-up {
+    font-family: "Roboto";
+    font-size: 17px;
+
+}
+
+.clear-btn {
+    border: 1px solid #0967d2;
+    width: 90px;
+    height: 30px;
+    font-family: "Roboto";
+    font-size: 14px;
+    background-color: transparent;
+    color: #0967d2;
+    margin-bottom: 30px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+
+}
