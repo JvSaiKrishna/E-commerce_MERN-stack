@@ -81,8 +81,8 @@ const login = async (req, res) => {
 
 const profile = async (req,res)=>{
     const username = req.username
-    const getProfile = await vendor.findOne({username})
-    const totalProducts = await product.find({vendor:getProfile._id})
+    const getProfile = await vendor.findOne({username}).select("-password")
+    const totalProducts = await product.find({vendor:getProfile._id}).select("-password")
     // console.log({getProfile,totalProducts})
     res.status(200).json(getProfile)
 }

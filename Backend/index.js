@@ -1,13 +1,13 @@
 import express from "express"
 import mongoose from "mongoose"
 import dotEnv from "dotenv"
-import { registration, login, profile } from "./collectors/vendorCollectors.js"
+
 import cors from "cors"
 import middleware from "./middleware.js"
 import { vendor } from "./models/Vendor.js"
-import { addProduct, uploadFile, GetProducts, GetAllProducts, GetProductById,deleteById } from "./collectors/productCollectors.js"
-import { userRegistration, userLogin } from "./collectors/userCollectors.js"
 
+import VendorRouter from "./Router/VendorRouter.js"
+import ShoppingRouter from "./Router/ShoppingRouter.js"
 
 try {
 
@@ -46,22 +46,9 @@ try {
     })
 
 
-    app.post('/Shopinity/vendor/registration', registration)
-    app.post('/Shopinity/vendor/login', login)
-
-    const upload = uploadFile()
-    app.post('/Shopinity/vendor/add-product', middleware, upload.single("file"), addProduct)
-    app.get('/Shopinity/vendor/get-products', middleware, GetProducts)
-    app.get('/Shopinity/vendor/get-profile', middleware, profile)
-    app.post('/Shopinity/vendor/delete/:id', middleware, deleteById)
-
-
-
-    app.post('/Shopinity/registration', userRegistration)
-    app.post('/Shopinity/login', userLogin)
-    app.get('/Shopinity/get-all-products', middleware, GetAllProducts)
-    app.get('/Shopinity/products/:id', middleware, GetProductById)
-
+    app.use('/Shopinity/vendor', VendorRouter)
+    app.use('/Shopinity', ShoppingRouter)
+   
 
 
 

@@ -68,17 +68,16 @@ const GetProducts = async (req, res) => {
 const GetAllProducts = async (req, res) => {
     try {
         let { category, rating, title_search, sort_by } = req.query
-        // console.log(sort_by)
         const price = sort_by
         if (!category) {
             category = ["Clothing", "Electronics", "Appliances", "Grocery", "Toys"]
-
-
+            
+            
         }
         else {
             category = category.split(",")
-
-
+            
+            
         }
         const Data = await product.aggregate([
             {
@@ -92,8 +91,10 @@ const GetAllProducts = async (req, res) => {
                 $sort: { price: parseInt(price) }
             }
         ])
-        res.status(201).json(Data)
+        console.log(req.query)
+
         // console.log(Data)
+        res.status(201).json(Data)
 
     } catch (error) {
         res.status(500).json("Server Problem")
