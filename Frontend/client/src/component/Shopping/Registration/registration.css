@@ -1,4 +1,4 @@
-.login-form-container {
+.signup-form-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -7,32 +7,32 @@
     width: 90%;
     max-width: 1110px;
     margin: auto;
-    
-    
+
+
 }
 @media screen and (min-width: 992px) {
-    .login-form-container {
+    .signup-form-container {
         flex-direction: row;
         justify-content: space-around;
     }
 }
 
-.login-website-logo-mobile-img {
+.signup-website-logo-mobile-img {
     width: 165px;
     margin-top: 50px;
     margin-bottom: 35px;
 }
 @media screen and (min-width: 992px) {
-    .login-website-logo-mobile-img {
+    .signup-website-logo-mobile-img {
         display: none;
     }
 }
 
-.login-img {
+.signup-img {
     width: 278px;
 }
 @media screen and (min-width: 992px) {
-    .login-img {
+    .signup-img {
         width: 60%;
         max-width: 524px;
         flex-shrink: 1;
@@ -41,8 +41,6 @@
 }
 
 .form-container {
-    margin-top: 20px;
-        /* border: 1px solid red; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -50,7 +48,6 @@
     border-radius: 8px;
     width: 100%;
     max-width: 350px;
-    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 }
 @media screen and (min-width: 992px) {
     .form-container {
@@ -61,13 +58,13 @@
     }
 }
 
-.login-website-logo-desktop-img {
+.signup-website-logo-desktop-img {
     width: 185px;
 }
 
 
 @media screen and (max-width: 991px) {
-    .login-website-logo-desktop-img {
+    .signup-website-logo-desktop-img {
         display: none;
     }
     
@@ -89,19 +86,7 @@
     color: #475569;
 }
 
-.username-input-field {
-    font-size: 14px;
-    height: 40px;
-    border: 1px solid #d7dfe9;
-    background-color: #e2e8f0;
-    /* color: #64748b; */
-    border-radius: 2px;
-    border: 0px;
-    outline: none;
-    margin-top: 5px;
-    padding: 8px 16px 8px 16px;
-}
-.password-input-field {
+.input-field {
     font-size: 14px;
     height: 40px;
     border: 1px solid #d7dfe9;
@@ -110,10 +95,11 @@
     border-radius: 2px;
     margin-top: 5px;
     padding: 8px 16px 8px 16px;
-    border: 0px;
+    bottom: 0px;
     outline: none;
 }
-.login-button {
+
+.signup-button {
     font-family: 'Roboto';
     font-weight: bold;
     font-size: 14px;
@@ -131,4 +117,9 @@
 
 .error{
     color: red;
+}
+
+.sign-in{
+    color: #0b69ff;
+    text-decoration: none;
 }

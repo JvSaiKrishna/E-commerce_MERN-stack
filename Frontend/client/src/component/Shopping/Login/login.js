@@ -3,18 +3,17 @@ import Cookies from "js-cookie"
 import "./login.css"
 import { useNavigate,Navigate, Link } from "react-router-dom"
 import { Api } from '../../Api.js'
+import { FaEye,FaEyeSlash  } from "react-icons/fa";
 
 
 export default function Login() {
-    const navigate = useNavigate()
-    const [inputRequired, setinput] = useState("")
-    const [isinputRequired, setisinput] = useState(false)
-    const [pwdRequired, setpwd] = useState("")
-    const [ispwdRequired, setispwd] = useState(false)
+    const navigate = useNavigate()   
     const [username, setusername] = useState("")
     const [password, setpassword] = useState("")
     const [isLogFailed, setisLogFailed] = useState(false)
     const [error, seterror] = useState("")
+    const [showPwd, setShowPwd] = useState(true)
+
 
 
     const jwToken = Cookies.get("jwToken")
@@ -54,6 +53,9 @@ export default function Login() {
     const onLogin = async (event) => {
         event.preventDefault()
         // const { username, password } = this.state
+        if(!username || !password){
+            return alert("Input Details Required")
+        }
         const request = { username, password }
         const url = `${Api}/Shopinity/login`
         const options = {
@@ -82,31 +84,6 @@ export default function Login() {
 
 
 
-
-    const OnBlurInput = (event) => {
-        if (event.target.value === "") {
-            setisinput(true)
-            setinput("Required")
-        }
-        else{
-            setisinput(false)
-            setinput("")
-
-        }
-    }
-    const OnBlurPwd = (event) => {
-        if (event.target.value ==="") {
-            setispwd(true)
-            setpwd("Required")
-        }
-        else{
-            setispwd(false)
-            setpwd("")
-
-        }
-    }
-    // console.log(inputRequired,pwdRequired)
-
     return (
         <div className='login-form-container'>
             {/* <img src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png " alt=" Website Logo" className='login-website-logo-mobile-img' /> */}
@@ -116,23 +93,30 @@ export default function Login() {
 
                 <div className='input-container'>
                     <label className='input-label' htmlFor='Username'>USERNAME</label><br />
-                    <input onBlur={OnBlurInput} onChange={onClickInput} className="username-input-field" type='text' id='Username' placeholder='Username' value={username} /><br />
-                    {(isinputRequired)&& (<p className='error'>*{inputRequired}</p>) }
+                    <input  onChange={onClickInput} className="username-input-field" type='text' id='Username' placeholder='Username' value={username} /><br />
+
 
                 </div>
 
                 <div className='input-container'>
                     <label className='input-label' htmlFor='password'>PASSWORD</label><br />
-                    <input onBlur={OnBlurPwd} onChange={onClickPassword} className='password-input-field' type='password' id='password' placeholder='Password' value={password} /><br />
-                    {(ispwdRequired) &&(<p className='error'>*{pwdRequired}</p>)}
-
+                    <div className='password-input-field-container'>
+                    <input  onChange={onClickPassword} className='password-input-field' type={showPwd?'password':"text"} id='password' placeholder='Password' value={password} />
+                    <button onClick={
+                        (e)=>{
+                            e.preventDefault()
+                            setShowPwd(!showPwd)
+                        }
+                    } className='eye-logo-btn'>{showPwd?<FaEye className='eye-logo' />: <FaEyeSlash className='eye-logo' />}</button>
+                    </div>
+                    
                 </div>
                 <button className='login-button' type='submit'>Login</button>
                 {isLogFailed && (<p className='error'>*{error}</p>)}<br/>
 
 
                 <p>New Customer? <span>
-                    <Link to='/Shopinity/registration'> start here</Link>
+                    <Link className='start-here' to='/Shopinity/registration'> Start here</Link>
                     </span></p>
 
 

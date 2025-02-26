@@ -1,4 +1,4 @@
-.signup-form-container {
+.login-form-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -7,32 +7,32 @@
     width: 90%;
     max-width: 1110px;
     margin: auto;
-
-
+    
+    
 }
 @media screen and (min-width: 992px) {
-    .signup-form-container {
+    .login-form-container {
         flex-direction: row;
         justify-content: space-around;
     }
 }
 
-.signup-website-logo-mobile-img {
+.login-website-logo-mobile-img {
     width: 165px;
     margin-top: 50px;
     margin-bottom: 35px;
 }
 @media screen and (min-width: 992px) {
-    .signup-website-logo-mobile-img {
+    .login-website-logo-mobile-img {
         display: none;
     }
 }
 
-.signup-img {
+.login-img {
     width: 278px;
 }
 @media screen and (min-width: 992px) {
-    .signup-img {
+    .login-img {
         width: 60%;
         max-width: 524px;
         flex-shrink: 1;
@@ -41,6 +41,8 @@
 }
 
 .form-container {
+    margin-top: 20px;
+        /* border: 1px solid red; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,6 +50,7 @@
     border-radius: 8px;
     width: 100%;
     max-width: 350px;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 }
 @media screen and (min-width: 992px) {
     .form-container {
@@ -58,13 +61,13 @@
     }
 }
 
-.signup-website-logo-desktop-img {
+.login-website-logo-desktop-img {
     width: 185px;
 }
 
 
 @media screen and (max-width: 991px) {
-    .signup-website-logo-desktop-img {
+    .login-website-logo-desktop-img {
         display: none;
     }
     
@@ -86,20 +89,55 @@
     color: #475569;
 }
 
-.input-field {
+.username-input-field {
     font-size: 14px;
     height: 40px;
     border: 1px solid #d7dfe9;
     background-color: #e2e8f0;
     /* color: #64748b; */
     border-radius: 2px;
+    border: 0px;
+    outline: none;
     margin-top: 5px;
     padding: 8px 16px 8px 16px;
-    bottom: 0px;
+}
+.password-input-field-container{
+    border: 1px solid #d7dfe9;
+    background-color: #e2e8f0;
+    border-radius: 2px;
+    border: 0px;
     outline: none;
+    display: flex;
+    align-items: center;
+    
+    
 }
 
-.signup-button {
+.password-input-field {
+    background-color: transparent;
+    font-size: 14px;
+    font-weight: 500;
+    width: 90%;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    padding: 13px;
+   
+}
+.eye-logo-btn{
+    background-color: transparent;
+    outline: none;
+    border: none;
+    width: 10%;
+    cursor: pointer;
+    
+    
+}
+.eye-logo{
+    width: 20px;
+    height: 20px;
+}
+.login-button {
     font-family: 'Roboto';
     font-weight: bold;
     font-size: 14px;
@@ -117,4 +155,10 @@
 
 .error{
     color: red;
+}
+
+.start-here{
+    color: #0b69ff;
+    text-decoration: none;
+    font-size: 16px;
 }

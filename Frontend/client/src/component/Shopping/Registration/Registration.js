@@ -3,20 +3,17 @@ import { useState } from 'react'
 import "./registration.css"
 import {  Link, useNavigate } from "react-router-dom"
 import {Api} from "../../Api.js"
+import { FaEye,FaEyeSlash  } from "react-icons/fa";
 
 const Registration = () => {
    const navigate = useNavigate()
-      const [inputRequired, setinput] = useState("")
-      const [isinputRequire, setisinput] = useState(false)
-      const [emailRequired, setemailRequired] = useState("")
-      const [isemailRequire, setisemailRequire] = useState(false)
-      const [pwdRequired, setpwd] = useState("")
-      const [ispwdRequire, setispwd] = useState(false)
       const [username, setusername] = useState("")
       const [email, setemail] = useState("")
       const [password, setpassword] = useState("")
       const [isLogFailed, setisLogFailed] = useState(false)
       const [error, seterror] = useState("")
+      
+    const [showPwd, setShowPwd] = useState(true)
   
   
     //   const jwToken = Cookies.get("jwToken")
@@ -59,6 +56,9 @@ const Registration = () => {
   
       const onSignup = async (event) => {
           event.preventDefault()
+          if(!username || !password ||!email){
+            return alert("Input Details Required")
+        }
           if(password.length >= 6){
 
               const request = { username,email, password }
@@ -93,44 +93,7 @@ const Registration = () => {
   
       }
   
-  
-  
-  
-      const OnBlurInput = (event) => {
-          if (event.target.value === "") {
-              setisinput(true)
-              setinput("Required")
-          }
-          else{
-              setisinput(false)
-              setinput("")
-  
-          }
-      }
-      const OnBlurEmail = (event) => {
-          if (event.target.value === "") {
-              setisemailRequire(true)
-              setemailRequired("Required")
-          }
-          else{
-              setisemailRequire(false)
-              setemailRequired("")
-  
-          }
-      }
-      const OnBlurPwd = (event) => {
-          if (event.target.value ==="") {
-              setispwd(true)
-              setpwd("Required")
-          }
-          else{
-              setispwd(false)
-              setpwd("")
-  
-          }
-      }
-      // console.log(inputRequired,pwdRequired)
-  
+
       return (
           <div className='signup-form-container'>
               {/* <img src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png " alt=" Website Logo" className='signup-website-logo-mobile-img' /> */}
@@ -141,28 +104,34 @@ const Registration = () => {
   
                   <div className='input-container'>
                       <label className='input-label' htmlFor='Username'>USERNAME</label><br />
-                      <input onBlur={OnBlurInput} onChange={onClickInput} className="input-field" type='text' id='Username' placeholder='Username' value={username} /><br />
-                      {(isinputRequire)&& (<p className='error'>*{inputRequired}</p>) }
-  
+                      <input  onChange={onClickInput} className="input-field" type='text' id='Username' placeholder='Username' value={username} /><br />
+                      
                   </div>
                   <div className='input-container'>
                       <label className='input-label' htmlFor='email'>EMAIL</label><br />
-                      <input onBlur={OnBlurEmail} onChange={onClickEmail} className="input-field" type='text' id='email' placeholder='Email' value={email} /><br />
-                      {(isemailRequire)&& (<p className='error'>*{emailRequired}</p>) }
-  
+                      <input  onChange={onClickEmail} className="input-field" type='text' id='email' placeholder='Email' value={email} /><br />
+                      
                   </div>
   
                   <div className='input-container'>
                       <label className='input-label' htmlFor='password'>PASSWORD</label><br />
-                      <input onBlur={OnBlurPwd} onChange={onClickPassword} className='input-field' type='password' id='password' placeholder='Password' value={password} /><br />
-                      {(ispwdRequire) &&(<p className='error'>*{pwdRequired}</p>)}
+                      {/* <input  onChange={onClickPassword} className='input-field' type='password' id='password' placeholder='Password' value={password} /><br /> */}
+                      <div className='password-input-field-container'>
+                    <input  onChange={onClickPassword} className='input-field' type={showPwd?'password':"text"} id='password' placeholder='Password' value={password} />
+                    <button onClick={
+                        (e)=>{
+                            e.preventDefault()
+                            setShowPwd(!showPwd)
+                        }
+                    } className='eye-logo-btn'>{showPwd?<FaEye className='eye-logo' />: <FaEyeSlash className='eye-logo' />}</button>
+                    </div>
   
                   </div>
                   <button className='signup-button' type='submit'>Sign up</button>
                   {isLogFailed && (<p className='error'>*{error}</p>)}<br/>
 
                   <p>Already had Account?  <span>
-                    <Link to='/Shopinity/login'> Sign In</Link>
+                    <Link className='sign-in' to='/Shopinity/login'> Sign In</Link>
                     </span></p>
   
               </form>

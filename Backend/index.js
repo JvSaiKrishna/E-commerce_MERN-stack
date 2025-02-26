@@ -1,6 +1,5 @@
 import express from "express"
 import mongoose from "mongoose"
-import { MongoClient, ServerApiVersion } from 'mongodb';
 import dotEnv from "dotenv"
 import { registration, login, profile } from "./collectors/vendorCollectors.js"
 import cors from "cors"
