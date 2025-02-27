@@ -15,9 +15,9 @@ const Pagination = (props) => {
     
   return (
     <div className='pagination'>
-        {pageNum.map(each=>{
+        {pageNum.map((each,index)=>{
 
-          return <button onClick={()=>(onClickbtn(each))} className={`pagination-btn ${each===currentPage&&"color"}`}>{each}</button>
+          return <button key={index} onClick={()=>(onClickbtn(each))} className={`pagination-btn ${each===currentPage&&"color"}`}>{each}</button>
           })}
     </div>
   )
