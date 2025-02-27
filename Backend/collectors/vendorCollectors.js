@@ -20,8 +20,8 @@ const registration = async (req, res) => {
         const { username, email, password } = req.body
         const getByuser = await vendor.findOne({ username })
         const getByemail = await vendor.findOne({ email })
-        // console.log(!getData)
-        if (!getByuser && !getByemail) {
+        // console.log(req.body)
+        if (!getByuser && !getByemail) {   
             const hashPwd = await hashFun(password)
             const newData = new vendor({
                 username,
@@ -32,17 +32,33 @@ const registration = async (req, res) => {
             return res.json("Registration success")
         }
         else {
-            if (getByuser.email === email || getByemail.email === email) {
+            if(getByuser){
 
-                return res.status(400).json("Email Already Exist");
+                if (getByuser.email === email) {
+                    
+                    return res.status(400).json("Email Already Exist");
+                }
+                else {
+                    if (getByuser.username === username)
+                        return res.status(400).json("User Exist");
+                    
+                }
             }
-            else {
-                if (getByuser.username === username || getByemail.username === username)
-                    return res.status(400).json("User Exist");
+            if(getByemail){
+                if (getByemail.email === email) {
+                    
+                    return res.status(400).json("Email Already Exist");
+                }
+                else {
+                    if (getByemail.username === username)
+                        return res.status(400).json("User Exist");
+                    
+                }
 
             }
         }
     } catch (error) {
+        console.log(error)
         res.status(500).json("Internal Server Problem")
 
     }
