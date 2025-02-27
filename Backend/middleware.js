@@ -6,6 +6,7 @@ dotEnv.config()
 const Secret = process.env.Secret_code
 const middleware = async (req, res, next) => {
     const auth = req.headers["authorization"]
+    // console.log(auth)
     if(!auth || !auth.startsWith("Bearer")){
         return res.status(400).json("Token Required")
     }

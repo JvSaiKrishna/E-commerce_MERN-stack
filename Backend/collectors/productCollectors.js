@@ -1,36 +1,50 @@
 // import { now } from "mongoose"
 import { product } from "../models/product.js"
+import dotEnv from "dotenv"
 import multer from "multer"
 import path from "path"
 import { vendor } from "../models/Vendor.js"
+import {v2 as cloudinary} from "cloudinary"
+
+dotEnv.config()
 
 
+cloudinary.config({
+    api_key:process.env.API_KEY,
+    cloud_name:process.env.ClOUD_NAME,
+    api_secret:process.env.API_SECRET
+})
 
-const uploadFile = () => {
-    const storage = multer.diskStorage({
-        destination: (req, file, cb) => {
-            cb(null, "./images")
-        },
-        filename: (req, file, cb) => {
-            cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname))
-        }
-    })
+// const uploadFile = () => {
+//     const storage = multer.diskStorage({
+//         destination: (req, file, cb) => {
+//             cb(null, "./images")
+//         },
+//         filename: (req, file, cb) => {
+//             cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname))
+//         }
+//     })
 
-    const upload = multer({ storage: storage })
-    return upload
-}
+//     const upload = multer({ storage: storage })
+//     return upload
+// }
 
 // const uploadFile = upload.single("file")
 
 const addProduct = async (req, res) => {
+   
     try {
-        const { title, brand, price, category, rating, description } = req.body
+        const { title, brand, price, category, rating, description,img } = req.body
+        // console.log(req.body)
         const username = req.username
         const Data = await vendor.findOne({ username })
-        // console.log(req.body)
+        
+        const cloudinaryUpload = await cloudinary.uploader.upload(img,{
+            folder:"/E-commerce"
+        })
+        console.log(cloudinaryUpload.url)
 
-        const imgUrl = req.file.filename
-        // console.log(re)
+        
         const newProduct = new product({
             title,
             brand,
@@ -38,7 +52,7 @@ const addProduct = async (req, res) => {
             category,
             price: price,
             rating,
-            imgUrl,
+            imgUrl:cloudinaryUpload.url,
             vendor: Data._id
         })
         const savedProduct = await newProduct.save()
@@ -145,4 +159,4 @@ const deleteById = async(req,res)=>{
     }
 }
 
-export { uploadFile, addProduct, GetProducts, GetAllProducts, GetProductById,deleteById }
+export {addProduct, GetProducts, GetAllProducts, GetProductById,deleteById}

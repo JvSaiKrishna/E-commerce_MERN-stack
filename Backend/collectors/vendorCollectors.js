@@ -52,6 +52,7 @@ const registration = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { username, password } = req.body;
+        // console.log(req.body)
         const getData = await vendor.findOne({ username })
         if (getData) {
             const isHashPwd = await bcrypt.compare(password, getData.password)
