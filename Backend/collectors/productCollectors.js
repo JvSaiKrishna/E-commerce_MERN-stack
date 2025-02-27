@@ -38,7 +38,7 @@ const addProduct = async (req, res) => {
         // console.log(req.body)
         const username = req.username
         const Data = await vendor.findOne({ username })
-        
+        console.log(Data)
         const cloudinaryUpload = await cloudinary.uploader.upload(img,{
             folder:"/E-commerce"
         })
@@ -131,6 +131,23 @@ const GetProductById = async (req, res) => {
 
 }
 
+const UpdateProductById = async(req,res)=>{
+    try {
+        const {id} = req.params
+        const username = req.username
+        const data = req.body
+        await product.findByIdAndUpdate(id,data)
+        
+        const userId = await vendor.findOne({username})  
+        const newData = await product.find({vendor:userId})
+        res.status(200).json(newData)
+
+    } catch (error) {
+        res.status(500).json("Internal server problem")
+        
+    }
+}
+
 const deleteById = async(req,res)=>{
     try {
         const {id} = req.params
@@ -159,4 +176,4 @@ const deleteById = async(req,res)=>{
     }
 }
 
-export {addProduct, GetProducts, GetAllProducts, GetProductById,deleteById}
+export {addProduct, GetProducts, GetAllProducts, GetProductById,UpdateProductById,deleteById}
