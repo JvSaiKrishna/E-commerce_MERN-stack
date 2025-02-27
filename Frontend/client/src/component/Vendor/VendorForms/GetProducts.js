@@ -130,7 +130,7 @@ const GetProducts = () => {
                     {perpage.map((each) => {
                         return (
                             <div className='get-products-container' key={each._id}>
-                                <img className='get-products-img' src={`${Api}/${each.imgUrl}`} alt='img' />
+                                <img className='get-products-img' src={`${each.imgUrl}`} alt='img' />
                                 <div className='get-products-data-container'>
                                     <div >
                                         <p className='get-products-title' >Title:{each.title}</p>

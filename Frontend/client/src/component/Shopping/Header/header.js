@@ -42,12 +42,12 @@ export default function Header() {
                     <p className="website-navbar-name">Shopinity</p>
                     <ul className="nav-menu">
                         <Link to="/Shopinity/home" className="nav-menu-item">
-                            <li >Home</li>
+                            <li className='menu-names' >Home</li>
                         </Link>
                         <Link to="/Shopinity/products" className="nav-menu-item">
-                            <li >Products</li>
+                            <li className='menu-names'>Products</li>
                         </Link>
-                        <a className="nav-menu-item" href='/shopinity/cart'> <li  onClick={onClickCart}>Cart:{cartCount||0}</li>
+                        <a className="nav-menu-item" href='/shopinity/cart'> <li className='menu-names'  onClick={onClickCart}>Cart:{cartCount||0}</li>
                         </a>
                            
                     </ul>

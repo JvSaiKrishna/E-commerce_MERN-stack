@@ -38,29 +38,47 @@ const AddProduct = () => {
     // }
     const onChangeImage = (event) => {
         // console.log(event.target.files)
-        setimg(event.target.files[0])
+        // setimg(event.target.files[0])
+        const file = event.target.files[0]
+        if(file){
+
+            let reader = new FileReader();
+            reader.onloadend = ()=>{
+                 setimg(reader.result)
+    
+            };
+            reader.readAsDataURL(file)
+        }
+
     }
 
     const SubmitHandler = async (event) => {
         event.preventDefault()
         const jwt = Cookies.get("jwt_token")
-        // console.log(productsData.category)
-        const formData = new FormData()
-        formData.append("title", productsData.title)
-        formData.append("description", productsData.description)
-        formData.append("brand", productsData.brand)
-        formData.append("category", productsData.category)
-        formData.append("price", productsData.price)
-        formData.append("rating", productsData.rating)
-        formData.append("file", img);
-        //  console.log(formData.get("file"))
+
+        // const formData = new FormData()
+        // formData.append("title", productsData.title)
+        // formData.append("description", productsData.description)
+        // formData.append("brand", productsData.brand)
+        // formData.append("category", productsData.category)
+        // formData.append("price", productsData.price)
+        // formData.append("rating", productsData.rating)
+        // if(img){
+        //     formData.append("file", img);
+            
+        // }
+
+        //  console.log(formData.get("category"))
         //  console.log(formData.get("rating"))
+        // console.log({...productsData,img})
+        const productDetails = {...productsData,img}
         const res = await fetch(`${Api}/Shopinity/vendor/add-product`, {
             method: "POST",
             headers: {
-                "authorization": `Bearer ${jwt}`
+                "authorization": `Bearer ${jwt}`,
+                "Content-Type":"application/json",
             },
-            body: formData
+            body: JSON.stringify(productDetails)
         })
         const data = await res.json()
         if (res.ok) {
@@ -151,6 +169,7 @@ const AddProduct = () => {
                         <button type='submit'>Submit</button>
                     </form>
                 </div>
+                {/* <img src ={img} alt='img' style={{width:"100px",height:"100px"}}/> */}
             </div>
         </>
     )
