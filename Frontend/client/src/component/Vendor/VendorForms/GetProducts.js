@@ -134,7 +134,7 @@ const GetProducts = () => {
         const jwt = Cookies.get("jwt_token")
         // console.log({...productsData,imgUrl:img},productId.current)
 
-        const productDetails = { ...productsData, img }
+        const productDetails = { ...productsData, imgUrl:img }
         const res = await fetch(`${Api}/Shopinity/vendor/update-product/${productId.current}`, {
             method: "POST",
             headers: {
