@@ -5,6 +5,7 @@ import multer from "multer"
 import path from "path"
 import { vendor } from "../models/Vendor.js"
 import {v2 as cloudinary} from "cloudinary"
+import e from "cors"
 
 dotEnv.config()
 
@@ -38,11 +39,11 @@ const addProduct = async (req, res) => {
         // console.log(req.body)
         const username = req.username
         const Data = await vendor.findOne({ username })
-        console.log(Data)
+        // console.log(Data)
         const cloudinaryUpload = await cloudinary.uploader.upload(img,{
             folder:"/E-commerce"
         })
-        console.log(cloudinaryUpload.url)
+        // console.log(cloudinaryUpload.url)
 
         
         const newProduct = new product({
@@ -135,7 +136,23 @@ const UpdateProductById = async(req,res)=>{
     try {
         const {id} = req.params
         const username = req.username
-        const data = req.body
+        let data = req.body
+        if(!data.imgUrl){
+            const {imgUrl,...newData} = data
+            data = newData
+
+        }
+        if(data.imgUrl){
+            const cloudinaryUpload = await cloudinary.uploader.upload(data.imgUrl,{
+                folder:"/E-commerce"
+            })
+            data.imgUrl = cloudinaryUpload.url
+            
+        }
+
+        
+
+        
         await product.findByIdAndUpdate(id,data)
         
         const userId = await vendor.findOne({username})  
