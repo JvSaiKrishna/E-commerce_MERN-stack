@@ -64,7 +64,7 @@ const addProduct = async (req, res) => {
         res.status(200).json("product Added")
     } catch (error) {
         res.status(400).json("something missed")
-        console.log(error)
+        // console.log(error)
     }
 }
 
@@ -106,7 +106,7 @@ const GetAllProducts = async (req, res) => {
                 $sort: { price: parseInt(price) }
             }
         ])
-        console.log(req.query)
+        // console.log(req.query)
 
         // console.log(Data)
         res.status(201).json(Data)

@@ -25,18 +25,19 @@ const userRegistration = async (req, res) => {
             res.status(200).json("sucessfully Registor")
         }
         else {
-            if (getByuser.email === email || getByemail.email === email) {
+            if (getByuser?.email === email || getByemail?.email === email) {
 
                 return res.status(400).json("Email Already Exist");
             }
             else {
-                if (getByuser.username === username || getByemail.username === username)
+                if (getByuser?.username === username || getByemail?.username === username)
                     return res.status(400).json("User Exist");
 
             }
         }
 
     } catch (error) {
+        console.log(error)
         res.status(500).json("Internal Server Problem")
 
     }
