@@ -166,7 +166,7 @@ export default function ProductsItemDetails() {
 
                 <div className="product-details-view-container">
                     <div className="product-image-details-container">
-                        <img src={`${Api}/${imageUrl}`} alt="product" className="product-image" />
+                        <img src={imageUrl} alt="product" className="product-image" />
                         <div className="product-details">
                             <h1 className="product-name">{title}</h1>
                             <p className="product-price">Rs {price}/-</p>

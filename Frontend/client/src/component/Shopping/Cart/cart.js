@@ -3,7 +3,6 @@ import Header from '../Header/header'
 import "./cart.css"
 import { BsPlusSquare, BsDashSquare } from 'react-icons/bs'
 import { counter } from '../Context/Context.js'
-import { Api } from "../../Api.js"
 
 const getDataFromLS = JSON.parse(localStorage.getItem("AddToCart") || "[]")
 let productsQuantity = []
@@ -124,7 +123,7 @@ const Cart = () => {
               return (<>
                 <div key={each.id} className='cart-product-container'>
 
-                  <img className='cart-product-img' src={`${Api}/${each.imageUrl}`} alt='product img' />
+                  <img className='cart-product-img' src={each.imageUrl} alt='product img' />
                   <div className='cart-product-details'>
                     <p className='cart-product-title'>Title: {each.title}</p>
                     <p className='cart-product-brand'>Brand: {each.brand}</p>

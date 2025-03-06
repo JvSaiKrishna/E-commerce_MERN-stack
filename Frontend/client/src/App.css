@@ -38,10 +38,10 @@
 /* Enter to home page */
 
 .inner-container {
-  background-color: #CBDCEB;
+  background-color: #ffffff;
   border-radius: 10px;
   min-height: 100vh;
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 .shopinity {
@@ -52,30 +52,68 @@
   margin-bottom: 30px;
 }
 
+
 .website-logo {
   width: 100%;
-  height: 65vh;
   margin-bottom: 30px;
+  height: 65vh;
 }
+
 
 .landing-page-description {
   font-size: 24px;
-  color: #608BC1;
-  font-weight: bold;
+  color: #133E87;
   margin-bottom: 30px;
 }
 
 .landing-page-button {
   width: 140px;
   height: 40px;
-  background-color: #133E87;
+  background-color: #0967d2;
   margin-left: 40px;
   color: white;
   border: 0px;
   border-radius: 8px;
-  font-size: larger;
   text-align: center;
   cursor: pointer;
+}
+.landing-page-button-container{
+  display: flex;
+
+}
+
+
+@media screen and (min-width:900px) {
+  .inner-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .logo-desc-container{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    grid-template-rows: repeat(3,1fr);
+    margin-top: 50px;
+    gap: 20px;
+    
+  }
+  .website-logo{
+    grid-column: 3/6;
+    grid-row: 1/4;
+  }
+  .desc-container{
+    grid-column: span 2;
+    grid-row: 1/4;
+  }
+  .landing-page-button-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+  }
+  .landing-page-button{
+    font-size: 17px;
+  }
+  
 }
 
 @media screen and (max-width:567px) {
@@ -95,6 +133,16 @@
     margin-bottom: 20px;
     font-size: small;
   }
+  .landing-page-button-container{
+    display: flex;
+    justify-content: flex-start;
+
+  }
+  .landing-page-button{
+    margin: 0px;
+    margin-right: 10px;
+  }
+  
 
 }
 

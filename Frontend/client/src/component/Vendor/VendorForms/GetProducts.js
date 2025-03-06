@@ -131,6 +131,7 @@ const GetProducts = () => {
 
     const SubmitHandler = async (event) => {
         event.preventDefault()
+        setIsLoading(true)
         const jwt = Cookies.get("jwt_token")
         // console.log({...productsData,imgUrl:img},productId.current)
 
@@ -144,6 +145,7 @@ const GetProducts = () => {
             body: JSON.stringify(productDetails)
         })
         const data = await res.json()
+        setIsLoading(false)
         if (res.ok) {
             setPerPage(data.slice(0, limit))
             setGetProducts(data)
@@ -218,7 +220,7 @@ const GetProducts = () => {
                             <label className='add-product-label ' htmlFor='imgUrl'>ImgUrl</label>
                             <input className='input-container-input add-product-img-input' name='file' onChange={onChangeImage} type='file' id='ImgUrl' placeholder='ImgUrl' />
                         </div>
-                        <button type='submit'>Update</button>
+                        <button disabled = {isLoading} type='submit'>{isLoading?"...":"Update"}</button>
                     </form>
                     :
                     <div className='my-product-contianer'>
@@ -258,7 +260,7 @@ const GetProducts = () => {
                                                         title: each.title,
                                                         brand: each.brand,
                                                         description: each.description,
-                                                        category: '',
+                                                        category: each.category,
                                                         price: each.price,
                                                         rating: each.rating
 

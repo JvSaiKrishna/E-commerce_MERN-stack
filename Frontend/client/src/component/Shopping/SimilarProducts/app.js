@@ -1,6 +1,5 @@
 import React from 'react'
 import "./app.css"
-import {Api} from "../../Api.js"
 
 const SimilarProductsData = props => {
   const {productDetails} = props
@@ -9,7 +8,7 @@ const SimilarProductsData = props => {
   return (
     <li className="similar-product-item">
       <img
-        src={`${Api}/${imageUrl}`}
+        src={imageUrl}
         alt={`similar product ${title}`}
         className="similar-product-image"
       />

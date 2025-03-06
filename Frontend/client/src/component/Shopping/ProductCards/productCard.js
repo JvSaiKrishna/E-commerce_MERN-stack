@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import "./productCard.css"
-import {Api} from "../../Api.js"
 
 export default function ProductCard(props) {
   const { productData } = props
@@ -11,7 +10,7 @@ export default function ProductCard(props) {
     <Link to={`/Shopinity/products/${id}`} className="product-item">
       <li >
         <div className='product-img-container'>
-          <img src={`${Api}/${imageUrl}`} alt="product" className="all-products-img" />
+          <img src={imageUrl} alt="product" className="all-products-img" />
         </div>
         <div className='product-details-container'>
 
