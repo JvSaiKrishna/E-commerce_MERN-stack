@@ -12,7 +12,7 @@ export default function Login() {
     const [password, setpassword] = useState("")
     const [userText, setUserText] = useState('')
     const [passwordText, setPasswordText] = useState('')
-    const [isLogFailed, setisLogFailed] = useState(false)
+    const [isLoading, setisLoading] = useState(false)
     const [error, seterror] = useState("")
     const [showPwd, setShowPwd] = useState(true)
 
@@ -55,13 +55,13 @@ export default function Login() {
 
     const onLogin = async (event) => {
         event.preventDefault()
-        setisLogFailed(true)
+        setisLoading(true)
         if (!username) {
-            setisLogFailed(false)
+            setisLoading(false)
             return setUserText("Required")
         }
         if (!password) {
-            setisLogFailed(false)
+            setisLoading(false)
             return setPasswordText("Required")
         }
         const request = { username, password }
@@ -87,7 +87,7 @@ export default function Login() {
         }
         setusername("")
         setpassword("")
-        setisLogFailed(false)
+        setisLoading(false)
 
     }
 
@@ -122,7 +122,7 @@ export default function Login() {
                     {passwordText && <p style={{ color: "red" }}>*{passwordText}</p>}
 
                 </div>
-                <button  className='login-button' type='submit'>{isLogFailed ? <span className="loader"></span> : "Login"}</button>
+                <button disabled={isLoading} className={`login-button ${isLoading ? "btn-loading":"btn-not-loading"}`} type='submit'>{isLoading ? <span className="loader"></span> : "Login"}</button>
                 {error && (<p className='error'>*{error}</p>)}<br />
 
 

@@ -13,7 +13,7 @@ const Registration = () => {
     const [emailText, setEmailText] = useState("")
     const [userText, setUserText] = useState('')
     const [passwordText, setPasswordText] = useState('')
-    const [isLogFailed, setisLogFailed] = useState(false)
+    const [isLoading, setisLoading] = useState(false)
     const [error, seterror] = useState("")
 
     const [showPwd, setShowPwd] = useState(true)
@@ -54,25 +54,25 @@ const Registration = () => {
 
     const SignupFailed = (data) => {
         seterror(data)
-        setisLogFailed(true)
+        setisLoading(true)
 
 
     }
 
     const onSignup = async (event) => {
         event.preventDefault()
-        setisLogFailed(true)
+        setisLoading(true)
         if (!username) {
-            setisLogFailed(false)
+            setisLoading(false)
             return setUserText("Required")
         }
         if (!email){
-            setisLogFailed(false)
+            setisLoading(false)
             return setEmailText("Required")
 
         }
         if (!password) {
-            setisLogFailed(false)
+            setisLoading(false)
             return setPasswordText("Required")
         }
         if (password.length >= 6) {
@@ -105,7 +105,7 @@ const Registration = () => {
         setusername("")
         setpassword("")
         setemail("")
-        setisLogFailed(false)
+        setisLoading(false)
 
     }
 
@@ -126,7 +126,7 @@ const Registration = () => {
                 {userText && <p style={{ color: "red" }}>*{userText}</p>}
                 <div className='input-container'>
                     <label className='input-label' htmlFor='email'>EMAIL</label><br />
-                    <input onChange={emailHandler} className="input-field" type='text' id='email' placeholder='Email' value={email} /><br />
+                    <input onChange={emailHandler} className="input-field" type='email' id='email' placeholder='Email' value={email} /><br />
 
                 </div>
                 {emailText && <p style={{ color: "red" }}>*{emailText}</p>}
@@ -146,7 +146,7 @@ const Registration = () => {
 
                 </div>
                 {passwordText && <p style={{ color: "red" }}>*{passwordText}</p>}
-                <button disabled = {isLogFailed} className='signup-button' type='submit'>{isLogFailed ? <span className="loader"></span> : "Sign Up"}</button>
+                <button disabled = {isLoading} className={`signup-button ${isLoading ? "btn-loading":"btn-not-loading"}`} type='submit'>{isLoading ? <span className="loader"></span> : "Sign Up"}</button>
                 {error && (<p className='error'>*{error}</p>)}<br />
 
                 <p>Already had Account?  <span>
