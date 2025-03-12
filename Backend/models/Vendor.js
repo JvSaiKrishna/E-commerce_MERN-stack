@@ -17,6 +17,10 @@ const vendorSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    img:{
+        type:String,
+        default:"https://static.vecteezy.com/system/resources/previews/002/318/271/non_2x/user-profile-icon-free-vector.jpg"
+    },
     product: [
         {
             type: mongoose.Schema.Types.ObjectId,
