@@ -10,7 +10,7 @@ import { BallTriangle } from "react-loader-spinner"
 
 // dotEnv.config()
 // console.log(process.env.Api)
-const limit = 3
+const limit = 6
 // let pageNum = []
 
 const GetProducts = () => {
@@ -19,6 +19,7 @@ const GetProducts = () => {
     const [perpage, setPerPage] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
+    const [isUpdateLoading, setIsUpdateLoading] = useState(false)
     const [isUpdate, setIsUpdate] = useState(false)
     const [productsData, setProductsData] = useState({
         title: '',
@@ -131,11 +132,11 @@ const GetProducts = () => {
 
     const SubmitHandler = async (event) => {
         event.preventDefault()
-        setIsLoading(true)
+        setIsUpdateLoading(true)
         const jwt = Cookies.get("jwt_token")
         // console.log({...productsData,imgUrl:img},productId.current)
 
-        const productDetails = { ...productsData, imgUrl:img }
+        const productDetails = { ...productsData, imgUrl: img }
         const res = await fetch(`${Api}/Shopinity/vendor/update-product/${productId.current}`, {
             method: "POST",
             headers: {
@@ -145,7 +146,7 @@ const GetProducts = () => {
             body: JSON.stringify(productDetails)
         })
         const data = await res.json()
-        setIsLoading(false)
+        setIsUpdateLoading(false)
         if (res.ok) {
             setPerPage(data.slice(0, limit))
             setGetProducts(data)
@@ -154,7 +155,7 @@ const GetProducts = () => {
         else {
             alert(data)
         }
-        
+
     }
 
 
@@ -168,7 +169,7 @@ const GetProducts = () => {
 
                 {isUpdate ?
                     <form className='add-product-form' onSubmit={SubmitHandler}>
-                        <h2>Add Products</h2>
+                        <h2>Update Products</h2>
                         <div className='input-container'>
                             <label className='add-product-label' htmlFor='title'>Title</label>
                             <input className='input-container-input' name='title' value={productsData.title} onChange={onChangeHandle} type='text' id='title' placeholder='Title' />
@@ -220,7 +221,11 @@ const GetProducts = () => {
                             <label className='add-product-label ' htmlFor='imgUrl'>ImgUrl</label>
                             <input className='input-container-input add-product-img-input' name='file' onChange={onChangeImage} type='file' id='ImgUrl' placeholder='ImgUrl' />
                         </div>
-                        <button disabled = {isLoading} type='submit'>{isLoading?"...":"Update"}</button>
+                        <div className='get-products-update-cancel-container'>
+                            <button className={`update-btn ${isUpdateLoading ? "update-btn-loading" : "update-btn-not-loading"}`} disabled={isUpdateLoading} type='submit'>{isUpdateLoading ? <span className='update-loading'></span> : "Update"}</button>
+                            <p onClick={() => setIsUpdate(false)} disabled={isUpdateLoading} className={`update-btn ${isUpdateLoading ? "update-btn-loading" : "update-btn-not-loading"}`}> Cancel</p>
+
+                        </div>
                     </form>
                     :
                     <div className='my-product-contianer'>
@@ -245,42 +250,48 @@ const GetProducts = () => {
                             </>)
                             :
                             (<>
-                                {perpage.map((each) => {
-                                    return (
-                                        <div className='get-products-container' key={each._id}>
-                                            <img className='get-products-img' src={`${each.imgUrl}`} alt='img' />
-                                            <div className='get-products-data-container'>
-                                                <div >
-                                                    <p className='get-products-title' >Title:{each.title}</p>
-                                                    <p className='get-products-data'>category:{each.category}</p>
-                                                    <p className='get-products-data'>price:{each.price}</p>
+                                <div className='get-products-container'>
+                                    {perpage.map((each) => {
+                                        return (
+
+                                            <div className='get-product-container' key={each._id}>
+                                                <img className='get-products-img' src={`${each.imgUrl}`} alt='img' />
+                                                <div className='get-products-data-container'>
+                                                    <div >
+                                                        <p className='get-products-title' ><b>Title:</b> {each.title}</p>
+                                                        <p className='get-products-data'><b>category:</b> {each.category}</p>
+                                                        <p className='get-products-data'><b>price:</b> {each.price}</p>
+                                                    </div>
+                                                    <div className='get-products-delete-update-container'>
+                                                        <button onClick={() => {
+                                                            setProductsData({
+                                                                title: each.title,
+                                                                brand: each.brand,
+                                                                description: each.description,
+                                                                category: each.category,
+                                                                price: each.price,
+                                                                rating: each.rating
+
+                                                            })
+                                                            productId.current = each._id
+                                                            setIsUpdate(true)
+
+                                                        }} className='get-products-delete-btn'>
+                                                            Update
+
+                                                        </button> <br />
+                                                        <button onClick={() => (onClickDelete(each._id))} className='get-products-delete-btn'>
+                                                            Delete
+
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <button onClick={() => {
-                                                    setProductsData({
-                                                        title: each.title,
-                                                        brand: each.brand,
-                                                        description: each.description,
-                                                        category: each.category,
-                                                        price: each.price,
-                                                        rating: each.rating
-
-                                                    })
-                                                    productId.current = each._id
-                                                    setIsUpdate(true)
-
-                                                }} className='get-products-delete-btn'>
-                                                    Update
-
-                                                </button> <br />
-                                                <button onClick={() => (onClickDelete(each._id))} className='get-products-delete-btn'>
-                                                    Delete
-
-                                                </button>
                                             </div>
-                                        </div>
-                                    )
+                                        )
 
-                                })}
+
+                                    })}
+                                </div>
                                 <Pagination getProducts={getProducts} limit={limit} pageHandler={pageHandler} currentPage={currentPage} />
                             </>)
                         }
