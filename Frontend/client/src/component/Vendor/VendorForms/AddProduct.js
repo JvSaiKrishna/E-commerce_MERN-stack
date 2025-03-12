@@ -166,7 +166,7 @@ const AddProduct = () => {
                             <label className='add-product-label ' htmlFor='imgUrl'>ImgUrl</label>
                             <input className='input-container-input add-product-img-input'  name='file' onChange={onChangeImage} type='file' id='ImgUrl' placeholder='ImgUrl' />
                         </div>
-                        <button type='submit'>Submit</button>
+                        <button className='add-button' type='submit'>Submit</button>
                     </form>
                 </div>
                 {/* <img src ={img} alt='img' style={{width:"100px",height:"100px"}}/> */}
