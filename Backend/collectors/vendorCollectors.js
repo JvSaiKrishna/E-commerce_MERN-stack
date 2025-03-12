@@ -3,8 +3,16 @@ import {product} from "../models/product.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import dotEnv from "dotenv"
+import {v2 as cloudinary} from "cloudinary"
 
 dotEnv.config()
+
+
+cloudinary.config({
+    api_key:process.env.API_KEY,
+    cloud_name:process.env.ClOUD_NAME,
+    api_secret:process.env.API_SECRET
+})
 
 
 const Secret = process.env.Secret_code
@@ -90,7 +98,7 @@ const login = async (req, res) => {
 
         }
     } catch (error) {
-        console.log(error)
+        res.status(500).json("Internal Server Problem")
 
     }
 }
@@ -102,8 +110,23 @@ const profile = async (req,res)=>{
     // console.log({getProfile,totalProducts})
     res.status(200).json(getProfile)
 }
+const profileUpdate = async(req,res)=>{
+    try {
+        const {pic} = req.body
+
+    const cloudinaryUpload = await cloudinary.uploader.upload(pic,
+        {folder:"/E-commerce"}
+    )
+    await vendor.updateOne({username:req.username},{img:cloudinaryUpload.url})
+    const getData = await vendor.findOne({username:req.username}).select("-password")
+    res.status(200).json(getData)
+    } catch (error) {
+        res.status(500).json("Internal Server Problem")
+        
+    }
+
+}
 
 
 
-
-export { registration, login,profile }
+export { registration, login,profile ,profileUpdate}
