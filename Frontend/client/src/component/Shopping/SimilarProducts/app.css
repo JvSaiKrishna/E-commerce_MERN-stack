@@ -1,17 +1,21 @@
 /* Write your CSS here */
 .similar-product-item {
-    margin-right: 30px;
-    margin-bottom: 30px;
-    margin-top: 20px;
     display: flex;
     flex-direction: column;
     /* align-items: center; */
+    margin-top: 30px;
     list-style-type: none;
+    grid-column: span 1;
+    
   }
-  @media screen and (min-width: 768px) {
+  @media screen and (max-width: 650px) {
     .similar-product-item {
-      width: 200px;
-      margin-right: 64px;
+      grid-column: span 1;
+    }
+  }
+  @media screen and (min-width: 651px) and (max-width:991px) {
+    .similar-product-item {
+      grid-column: span 1;
     }
   }
   .similar-product-image {

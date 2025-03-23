@@ -682,9 +682,14 @@
   }
 
 }
+.get-products-img-container{
+  width: 180px;
+  height: 180px;
+}
 
 .get-products-img {
-  width: 180px;
+  width: 100%;
+  height: 100%;
   margin-right: 10px;
 }
 
@@ -696,16 +701,23 @@
   font-size: 20px;
   margin-bottom: 10px;
 }
+.update-btn-bg{
+  background-color: #3E5879;
+
+}
 
 .get-products-delete-btn {
   width: 70px;
   margin-top: 6px;
   height: 30px;
   font-size: 16px;
-  background-color: #3E5879;
   color: #F5EFE7;
   border: 0px;
   cursor: pointer;
+}
+
+.delete-btn-bg{
+  background-color: #dc3545;
 }
 
 .get-products-delete-btn:hover {
@@ -747,12 +759,14 @@
   font-size: 18px;
   color: #F5EFE7;
   border: 0px;
-  border-radius: 8px;
   grid-column: span 2;
   display: flex;
   justify-content: center;
   align-items: center;
 
+}
+.update-btn:hover{
+  border-radius: 10px;
 }
 
 .update-loading {
