@@ -3,11 +3,19 @@ import {Navigate}  from "react-router-dom"
 import Cookies from "js-cookie"
 import { Link } from "react-router-dom"
 import Header from "../Header/header.js"
+import { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { cartCount } from "../CartSlice/CartSlice.js"
 
 
 const Home = () => {
     
     const jwToken = Cookies.get("jwToken")
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(cartCount())
+    }, [dispatch])
     if(jwToken === undefined){
         return <Navigate to="/login" replace/>        
     }

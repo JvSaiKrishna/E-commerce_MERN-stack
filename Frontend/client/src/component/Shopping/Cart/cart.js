@@ -1,150 +1,81 @@
-import React, { useContext } from 'react'
+import React, {  useEffect } from 'react'
 import Header from '../Header/header'
 import "./cart.css"
 import { BsPlusSquare, BsDashSquare } from 'react-icons/bs'
-import { counter } from '../Context/Context.js'
+import {ThreeCircles} from 'react-loader-spinner'
+import {useDispatch} from "react-redux"
+import { cartCount, DecrementProductQuantity, FetchCartProducts, IncrementProductQuantity, RemoveProductFromCart } from '../CartSlice/CartSlice.js'
+import { useSelector } from 'react-redux'
 
-const getDataFromLS = JSON.parse(localStorage.getItem("AddToCart") || "[]")
-let productsQuantity = []
-
-if(getDataFromLS){
-
-  getDataFromLS.forEach(each => {
-     productsQuantity.push({ id: each.id, quantity: each.count })
-  })
-} 
 const Cart = () => {
-  const { cartCount } = useContext(counter)
-  // const [isLoading, setIsLoading]= useState(false)
-  // window.location.reload()
+  // const [cartProducts, setCartProducts] = useState([])
+  const {cartProducts,loading} = useSelector((state)=>state.cartCounter)
+
+  const dispatch = useDispatch()
 
 
-  const onIncrementQuantity = (id) => {
-    const getDataFromLocalStoreage = localStorage.getItem("AddToCart");
-    const convertToParse = getDataFromLocalStoreage && JSON.parse(getDataFromLocalStoreage);
+  useEffect(() => {
+    dispatch(FetchCartProducts())
+  }, [dispatch])
+  useEffect(() => {
+    dispatch(cartCount())
+  }, [dispatch,cartProducts])
 
-    let newData = convertToParse.map(eachProduct => {
-      if (eachProduct.id === id) {
-        return ({
-          ...eachProduct,
-          brand: eachProduct.brand,
-          count: eachProduct.count + 1,
-          description: eachProduct.description,
-          id: eachProduct.id,
-          imageUrl: eachProduct.imageUrl,
-          price: eachProduct.price,
-          rating: eachProduct.rating,
-          title: eachProduct.title
-        })
-      }
-      else {
-        return (eachProduct)
 
-      }
-    })
-
-    localStorage.setItem('AddToCart', JSON.stringify(newData))
-
-    // const quantityCount = productsQuantity.map(each => {
-    //   if (each.id === id) {
-    //     return { ...each, quantity: each.quantity + 1 }
-    //   }
-    //   return (each)
-    // })
-    // productsQuantity = quantityCount
-    // setIsLoading(prev=>!prev)
-    window.location.reload()
+  const onIncrementQuantity = (id,products) => {
+    dispatch(IncrementProductQuantity({id,products}))
   }
-  const onDecrementQuantity = (id) => {
-    const getDataFromLocalStoreage = localStorage.getItem("AddToCart");
-    const convertToParse = getDataFromLocalStoreage && JSON.parse(getDataFromLocalStoreage);
+  const onDecrementQuantity = async (quantity,id,products) => {
+    dispatch(DecrementProductQuantity({quantity,id,products}))
+    }
 
-    let newData = convertToParse.map(eachProduct => {
-      if (eachProduct.id === id) {
-        if (eachProduct.count > 1) {
-          return ({
-            ...eachProduct,
-            brand: eachProduct.brand,
-            count: eachProduct.count - 1,
-            description: eachProduct.description,
-            id: eachProduct.id,
-            imageUrl: eachProduct.imageUrl,
-            price: eachProduct.price,
-            rating: eachProduct.rating,
-            title: eachProduct.title
-          })
-        }
-      }
-      return (eachProduct)
-
-
-    })
-    localStorage.setItem('AddToCart', JSON.stringify(newData))
-
-    // const quantityCount = productsQuantity.map(each => {
-    //   if (each.id === id) {
-    //     if (each.quantity > 1) {
-
-    //       return { ...each, quantity: each.quantity - 1 }
-    //     }
-    //   }
-    //   return (each)
-    // })
-    // productsQuantity = quantityCount
-    // setIsLoading(prev=>!prev)
-
-    window.location.reload()
+  const onClickRemove = async(id) => {
+    dispatch(RemoveProductFromCart(id))
   }
 
-  const onClickRemove = (id) => {
-    const newData = getDataFromLS.filter(each => {
-      return (each.id !== id)
-    });
 
-    console.log(newData)
-    localStorage.setItem('AddToCart', JSON.stringify(newData))
-    window.location.reload()
-
-  }
-
-  
-
-  // console.log(productsQuantity)
-
-  return (<>
-    <Header />
-    <div className='container'>
+  const renderProductsList = ()=>{
+    return (
+      <>
+      <div className='container'>
       <div>
         <h2 className='cart-product-name'>Products Cart</h2>
 
-        {cartCount ?
-          <div>
-            {getDataFromLS.map(each => {
+        {cartProducts?.length !== 0 ?
+          <div key={Math.random()} className='cart-products-container'>
+            {cartProducts?.map(each => {
               return (<>
-                <div key={each.id} className='cart-product-container'>
+                <div key={each._id} className='cart-product-container'>
+                  <div className='cart-product-img-container'>
 
-                  <img className='cart-product-img' src={each.imageUrl} alt='product img' />
-                  <div className='cart-product-details'>
-                    <p className='cart-product-title'>Title: {each.title}</p>
-                    <p className='cart-product-brand'>Brand: {each.brand}</p>
-                    <p className='cart-product-price'>Price: ₹{each.price}/-</p>
-
+                    <img className='cart-product-img' src={each.productId.imgUrl} alt='product img' />
                   </div>
-                  <div className='cart-product-count-container'>
-                    <button onClick={() => onDecrementQuantity(each.id)} className='quantity-controller-button'>
-                      <BsDashSquare className=" icon-color quantity-controller-icon" />
+                  <div className='cart-product-details-count-remove-container'>
 
-                    </button>
+                    <div className='cart-product-details'>
+                      <p className='cart-product-title'>Title: {each.productId.title}</p>
+                      <p className='cart-product-brand'>Brand: {each.productId.brand}</p>
+                      <p className='cart-product-price'>Price: ₹{each.productId.price}/-</p>
 
-                    <p className='cart-product-count'>{each.count}</p>
-                    <button className='quantity-controller-button'>
-                      <BsPlusSquare onClick={() => onIncrementQuantity(each.id)} className="quantity-controller-icon icon-color" />
+                    </div>
+                    <div className='cart-product-count-remove-container'>
+                      <div className='cart-product-count-container'>
+                        <button onClick={() => onDecrementQuantity(each.quantity,each._id,cartProducts)} className='quantity-controller-button'>
+                          <BsDashSquare className=" icon-color quantity-controller-icon" />
 
-                    </button>
-                  </div>
-                  <div className='cart-product-remove-container'>
+                        </button>
 
-                    <button onClick={() => onClickRemove(each.id)} className='cart-product-remove'>Remove</button>
+                        <p className='cart-product-count'>{each.quantity}</p>
+                        <button className='quantity-controller-button'>
+                          <BsPlusSquare onClick={() => onIncrementQuantity(each._id,cartProducts)} className="quantity-controller-icon icon-color" />
+
+                        </button>
+                      </div>
+                      <div className='cart-product-remove-container'>
+
+                        <button onClick={() => onClickRemove(each._id)} className='cart-product-remove'>Remove</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -152,14 +83,40 @@ const Cart = () => {
             })}
           </div>
           : (<>
-            <div className ='empty-cart-container' >
+            <div className='empty-cart-container' >
 
-              <img className='empty-cart-img'  src='https://static.vecteezy.com/system/resources/previews/004/964/514/original/young-man-shopping-push-empty-shopping-trolley-free-vector.jpg' alt='Cart Empty' />
+              <img className='empty-cart-img' src='https://static.vecteezy.com/system/resources/previews/004/964/514/original/young-man-shopping-push-empty-shopping-trolley-free-vector.jpg' alt='Cart Empty' />
             </div>
           </>)
         }
       </div>
     </div>
+      </>
+    )
+  }
+
+  const renderLoader = () => (
+      <div className="products-loader-container">
+  
+        <ThreeCircles
+          visible={true}
+          height="100"
+          width="100"
+          color="#4fa94d"
+          ariaLabel="three-circles-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </div>
+    )
+
+
+
+
+  return (<>
+    <Header />
+    {loading ? renderLoader() : renderProductsList()}
+    
   </>
   )
 }

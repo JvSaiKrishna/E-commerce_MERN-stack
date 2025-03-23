@@ -1,14 +1,17 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import Cookies from "js-cookie"
 import { useParams, Link } from "react-router-dom"
 import SimilarProductsData from '../SimilarProducts/app'
 import { BsPlusSquare, BsDashSquare } from 'react-icons/bs'
 import "./app.css"
 import Header from "../Header/header.js"
-import {ThreeCircles} from "react-loader-spinner"
+import { ThreeCircles } from "react-loader-spinner"
 // import Cart from '../Cart/cart.js'
-import { counter } from '../Context/Context.js'
-import {Api} from "../../Api.js"
+// import { counter } from '../Context/Context.js'
+import { Api } from "../../Api.js"
+import PopupAddCart from './PopupAddCart.js'
+import { useDispatch } from 'react-redux'
+import { cartCount } from '../CartSlice/CartSlice.js'
 
 
 
@@ -19,15 +22,6 @@ const apiStatusConstants = {
     inProgress: 'IN_PROGRESS',
 }
 
-// localStorage.setItem("AddToCart","[]")
-// console.log(JSON.parse(localStorage.getItem("AddToCart")))
-// console.log(JSON.parse(localStorage.getItem("AddToCart")).length)
-// localStorage.clear("AddToCart")
-
-
-
-// const totalReviews = Math.floor(Math.random()*2000)
-
 export default function ProductsItemDetails() {
     // const [ dependency ] = useState(1)
     const [status, setstatus] = useState(apiStatusConstants.initial)
@@ -36,10 +30,11 @@ export default function ProductsItemDetails() {
         selectedProduct: [],
         similarProducts: []
     })
-    const {setCartCount} = useContext(counter)
-
-    // const navigate = useNavigate()
+    const [isCart,setIsCart] = useState(false)
     const { id } = useParams()
+    const jwt = Cookies.get("jwToken")
+
+    const dispatch = useDispatch()
 
 
 
@@ -56,16 +51,14 @@ export default function ProductsItemDetails() {
             count: 0
             // totalReviews: data.total_reviews,
         })
-    
-        const FetchProductsAsPerId = async (id) => {
+
+        const FetchProductsAsPerId = async (jwt,id) => {
             setstatus(apiStatusConstants.inProgress)
-    
-            const jwTOken = Cookies.get("jwToken")
             const url = `${Api}/Shopinity/products/${id}`
             const options = {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${jwTOken}`
+                    Authorization: `Bearer ${jwt}`
                 },
                 method: "GET"
             }
@@ -74,11 +67,15 @@ export default function ProductsItemDetails() {
                 const data = await response.json()
                 // console.log(data.similarProducts)
                 const updatedSelectedProduct = getFormattedData(data.getById)
-                const updatedSimilarProducts = data.similarProducts.map(eachProduct => {
-                    return getFormattedData(eachProduct)
-    
+                const filterSimilarProducts = data.similarProducts.filter(eachProduct=>{
+                    return eachProduct._id !== id
                 })
-    
+
+                const updatedSimilarProducts = filterSimilarProducts.map(eachProduct => {
+                    return getFormattedData(eachProduct)
+
+                })
+
                 setitems({
                     selectedProduct: updatedSelectedProduct,
                     similarProducts: updatedSimilarProducts
@@ -88,11 +85,15 @@ export default function ProductsItemDetails() {
             else {
                 setstatus(apiStatusConstants.failure)
             }
-    
+
         }
-        FetchProductsAsPerId(id)
+        FetchProductsAsPerId(jwt,id)
         // console.log("useeffect")
-    }, [id])
+    }, [jwt,id])
+
+    useEffect(() => {
+        dispatch(cartCount())
+      }, [dispatch,isCart])
 
 
     const onIncrementQuantity = () => {
@@ -108,43 +109,68 @@ export default function ProductsItemDetails() {
         }
     }
 
-    const onClickAddCart = (productMoveTOCart) => {
+    const onClickAddCart = async(jwt,id,quantity) => {
 
-        const getDataFromLocalStoreage = localStorage.getItem("AddToCart");
-        const convertToParse = JSON.parse(getDataFromLocalStoreage || "[]");
-        
-        let isPresent = [];
-        let newData = [];
-        if(convertToParse){
-            newData = convertToParse.map(eachProduct=>{
-                isPresent.push(eachProduct.id ===productMoveTOCart.id)
-                if(eachProduct.id ===productMoveTOCart.id){
-                    return ({...eachProduct,
-                        brand:eachProduct.brand,
-                        count:eachProduct.count+parseInt(quantity),
-                        description:eachProduct.description,
-                        id:eachProduct.id,
-                        imageUrl:eachProduct.imageUrl,
-                        price:eachProduct.price,
-                        rating:eachProduct.rating,
-                        title:eachProduct.title
-                    })
-                }
-                else{
-                    return (eachProduct)
-    
-                }
-            })
+        const url = `${Api}/Shopinity/cart/${id}`
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${jwt}`
+            },
+            body: JSON.stringify({quantity})
+        }
+        const res = await fetch(url,options)
+        if(res.ok){
+            setIsCart(true)
+        }
+        else{
+            const data = await res.json()
+            console.log(data)
 
         }
-        
-        if(isPresent.includes(true) === false){
-            newData = [...newData,{...productMoveTOCart,count:parseInt(quantity)}]
-        }       
-        
-        localStorage.setItem('AddToCart',JSON.stringify(newData))
-        setCartCount(JSON.parse(localStorage.getItem("AddToCart")).length)
-        // console.log(JSON.parse(localStorage.getItem("AddToCart")).length)
+
+
+        // const getDataFromLocalStoreage = localStorage.getItem("AddToCart");
+        // const convertToParse = JSON.parse(getDataFromLocalStoreage || "[]");
+
+        // let isPresent = [];
+        // let newData = [];
+        // if(convertToParse){
+        //     newData = convertToParse.map(eachProduct=>{
+        //         isPresent.push(eachProduct.id ===productMoveTOCart.id)
+        //         if(eachProduct.id ===productMoveTOCart.id){
+        //             return ({...eachProduct,
+        //                 brand:eachProduct.brand,
+        //                 count:eachProduct.count+parseInt(quantity),
+        //                 description:eachProduct.description,
+        //                 id:eachProduct.id,
+        //                 imageUrl:eachProduct.imageUrl,
+        //                 price:eachProduct.price,
+        //                 rating:eachProduct.rating,
+        //                 title:eachProduct.title
+        //             })
+        //         }
+        //         else{
+        //             return (eachProduct)
+
+        //         }
+        //     })
+
+        // }
+
+        // if(isPresent.includes(true) === false){
+        //     newData = [...newData,{...productMoveTOCart,count:parseInt(quantity)}]
+        // }       
+
+        // localStorage.setItem('AddToCart',JSON.stringify(newData))
+        // setCartCount(JSON.parse(localStorage.getItem("AddToCart")).length)
+        // // console.log(JSON.parse(localStorage.getItem("AddToCart")).length)
+
+    }
+
+    const PopupCart = ()=>{
+        setIsCart(false)
 
     }
 
@@ -163,10 +189,14 @@ export default function ProductsItemDetails() {
 
         return (
             <>
+            {isCart&&<PopupAddCart PopupCart = {PopupCart} />}
 
                 <div className="product-details-view-container">
                     <div className="product-image-details-container">
-                        <img src={imageUrl} alt="product" className="product-image" />
+                        <div className='product-image-container'>
+
+                            <img src={imageUrl} alt="product" className="product-image" />
+                        </div>
                         <div className="product-details">
                             <h1 className="product-name">{title}</h1>
                             <p className="product-price">Rs {price}/-</p>
@@ -210,7 +240,7 @@ export default function ProductsItemDetails() {
                                     <BsPlusSquare className="quantity-controller-icon" />
                                 </button>
                             </div>
-                            <button onClick={()=>onClickAddCart(items.selectedProduct)} type="button" className="button add-to-cart-btn">
+                            <button onClick={() => onClickAddCart(jwt,id,quantity)} type="button" className="button add-to-cart-btn">
                                 ADD TO CART
                             </button>
                         </div>
@@ -252,16 +282,16 @@ export default function ProductsItemDetails() {
     const renderLoaderView = () => (
         <div className="products-loader-container">
 
-      <ThreeCircles
-        visible={true}
-        height="100"
-        width="100"
-        color="#4fa94d"
-        ariaLabel="three-circles-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
-      />
-    </div>
+            <ThreeCircles
+                visible={true}
+                height="100"
+                width="100"
+                color="#4fa94d"
+                ariaLabel="three-circles-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+            />
+        </div>
     )
 
 
@@ -285,12 +315,12 @@ export default function ProductsItemDetails() {
             <Header />
             <div className='container'>
 
-            <div className="product-item-details-container">
+                <div className="product-item-details-container">
 
-                {renderApiStatusViews()}
+                    {renderApiStatusViews()}
+                </div>
             </div>
-            </div>
-        
+
         </>
     )
 

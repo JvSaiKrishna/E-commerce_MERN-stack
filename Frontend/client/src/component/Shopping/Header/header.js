@@ -1,17 +1,15 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Cookies from "js-cookie"
 import "./header.css"
 import { Link, useNavigate } from 'react-router-dom'
-import { counter } from '../Context/Context.js'
+import {useSelector} from "react-redux"
 
 
 // const data = localStorage.getItem("AddToCart")
 // const count = JSON.parse(data).length
 
 export default function Header() {
-    const { cartCount} = useContext(counter);
-    // console.log(cartCount)
-    
+    const {count} = useSelector((state)=>state.cartCounter)
     const navigate = useNavigate()
     const OnLogout = () => {
         const jwToken = Cookies.remove("jwToken")
@@ -47,7 +45,10 @@ export default function Header() {
                         <Link to="/Shopinity/products" className="nav-menu-item">
                             <li className='menu-names'>Products</li>
                         </Link>
-                        <a className="nav-menu-item" href='/shopinity/cart'> <li className='menu-names'  onClick={onClickCart}>Cart:{cartCount||0}</li>
+                        <Link className="nav-menu-item" to='/shopinity/cart'>
+                        <li className='menu-names' >Cart: {count}</li>
+                        </Link>
+                        <a className="nav-menu-item" href='/shopinity/cart'> <li className='menu-names'  onClick={onClickCart}>Cart: {count}</li>
                         </a>
                            
                     </ul>
@@ -66,12 +67,12 @@ export default function Header() {
                             <img src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-products-icon.png" alt="nav products" class="nav-bar-img" />
                         </li>
                     </Link>
-                    <a className="nav-menu-item-mobile" href='/shopinity/cart'>
-                        <li onClick={onClickCart} >
+                    <Link className="nav-menu-item-mobile" to='/shopinity/cart'>
+                    <li >
                             <img src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-cart-icon.png" alt="nav cart" class="nav-bar-img" />
-                            <p> : {cartCount||0} </p>
+                            <p> : {count} </p>
                         </li>
-                    </a>
+                    </Link >
                     
                 </ul>
             </div>
