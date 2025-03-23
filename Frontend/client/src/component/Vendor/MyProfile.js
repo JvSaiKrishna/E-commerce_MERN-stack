@@ -7,6 +7,7 @@ import { Api } from '../Api.js'
 import { FaCamera } from "react-icons/fa";
 
 
+
 const MyProfile = () => {
     const [profile, setProfile] = useState('')
     const [picUpdate, setPicUpdate] = useState('')
@@ -14,6 +15,7 @@ const MyProfile = () => {
     const [isPicUpdate, setIsPicUpdate] = useState(false)
 
     const jwt = Cookies.get("jwt_token")
+   
     useEffect(() => {
         const FetchProfile = async (jwt) => {
             const url = `${Api}/Shopinity/vendor/get-profile`
@@ -72,6 +74,10 @@ const MyProfile = () => {
 
 
     }, [picUpdate, jwt])
+
+    if(!jwt){
+        return <Navigate to="/Shopinity/vendor/login"/>
+    }
 
     const profileImgHandler = (e) => {
         const file = e.target.files[0]
