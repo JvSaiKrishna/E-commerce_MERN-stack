@@ -2,16 +2,18 @@ import React from 'react'
 import "./app.css"
 
 const SimilarProductsData = props => {
-  const {productDetails} = props
-  const {title, brand, imageUrl, rating, price} = productDetails
+  const { productDetails } = props
+  const { title, brand, imageUrl, rating, price } = productDetails
 
   return (
     <li className="similar-product-item">
-      <img
-        src={imageUrl}
-        alt={`similar product ${title}`}
-        className="similar-product-image"
-      />
+      <div className='similar-product-image-container'>
+        <img
+          src={imageUrl}
+          alt={`similar product ${title}`}
+          className="similar-product-image"
+        />
+      </div>
       <p className="similar-product-title">{title}</p>
       <p className="similar-products-brand">by {brand}</p>
       <div className="similar-product-price-rating-container">

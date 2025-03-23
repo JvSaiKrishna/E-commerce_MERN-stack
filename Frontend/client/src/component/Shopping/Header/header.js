@@ -20,10 +20,6 @@ export default function Header() {
         
         
     }
-    const onClickCart = ()=>{
-        navigate('/shopinity/cart')
-
-    }
     return (
 
         <nav className="nav-header">
