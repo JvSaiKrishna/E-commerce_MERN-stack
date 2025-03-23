@@ -18,6 +18,7 @@ const middleware = async (req, res, next) => {
         }
         else {
             req.username = payload.username
+            req.userId = payload.id
             next()
         }
 

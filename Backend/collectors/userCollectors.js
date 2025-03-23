@@ -37,7 +37,7 @@ const userRegistration = async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         res.status(500).json("Internal Server Problem")
 
     }
@@ -54,7 +54,8 @@ const userLogin = async (req, res) => {
 
             if (isHashPwd) {
                 const payload = {
-                    username
+                    username,
+                    id:getData._id
                 }
                 const getJwt = jwt.sign(payload, Secret)
                 return res.status(200).json({ getJwt });

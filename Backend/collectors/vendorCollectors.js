@@ -82,7 +82,8 @@ const login = async (req, res) => {
 
             if (isHashPwd) {
                 const payload = {
-                    username
+                    username,
+                    id:getData._id
                 }
                 const getJwt =  jwt.sign(payload,Secret)
                 return res.status(200).json({ getJwt });
