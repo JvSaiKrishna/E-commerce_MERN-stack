@@ -99,10 +99,10 @@ function Product() {
     // console.log(isThreeLines)
     if (isThreeLines === true) {
 
-      setthreeLines('productsHeader-producysSection-container-clicked')
+      setthreeLines('productsHeader-productsSection-container-clicked')
     }
     else {
-      setthreeLines("productsHeader-producysSection-container")
+      setthreeLines("productsHeader-productsSection-container")
     }
 
   }
