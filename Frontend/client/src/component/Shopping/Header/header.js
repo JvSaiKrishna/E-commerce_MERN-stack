@@ -48,8 +48,7 @@ export default function Header() {
                         <Link className="nav-menu-item" to='/shopinity/cart'>
                         <li className='menu-names' >Cart: {count}</li>
                         </Link>
-                        <a className="nav-menu-item" href='/shopinity/cart'> <li className='menu-names'  onClick={onClickCart}>Cart: {count}</li>
-                        </a>
+                        
                            
                     </ul>
                     <button onClick={OnLogout} type="button" className="logout-desktop-btn">Logout</button>
