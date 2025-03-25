@@ -30,7 +30,7 @@ const addToCart = async (req, res) => {
 const getProductsToCart = async (req, res) => {
     const {userId} = req
     try {
-        const getProductsFromCart = await cart.find({ userId }).populate("productId")
+        const getProductsFromCart = await cart.find({ userId }).populate(["productId","userId"]).select("-password")
         res.status(200).json({ cartProducts: getProductsFromCart })
     } catch (error) {
         res.status(500).json({message:"Internal serval problem"})
