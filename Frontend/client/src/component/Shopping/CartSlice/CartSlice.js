@@ -170,7 +170,7 @@ const cartSlice = createSlice({
       })
       .addCase(FetchCartProducts.rejected, (state, action) => {
         state.loading = false;
-        console.log(action.error.message);
+        state.errMsg = action.error.message;
 
       })
       .addCase(IncrementProductQuantity.pending, (state) => {
@@ -182,7 +182,7 @@ const cartSlice = createSlice({
       })
       .addCase(IncrementProductQuantity.rejected, (state, action) => {
         state.cartLoading = false;
-        console.log(action.error.message);
+        state.errMsg = action.error.message;
 
       })
       .addCase(DecrementProductQuantity.pending, (state) => {
