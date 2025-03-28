@@ -124,6 +124,35 @@ export const RemoveProductFromCart = createAsyncThunk("cart/:id/delete", async (
   }
 })
 
+export const RemoveAllProductsFromCart = createAsyncThunk("cart/delete",async()=>{
+  try {
+    const url = `${Api}/Shopinity/cart`
+    const options = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${jwt}`
+      }
+
+    }
+
+    const res = await fetch(url,options)
+    if (res.ok) {
+      const data = await res.json()
+      return data.cartProducts
+    }
+    else{
+      const errMsg = await res.json()
+      throw new Error(errMsg?.message || "Somthing went wrong")
+
+    }
+
+  } catch (error) {
+    throw error
+    
+  }
+})
+
 export const cartCount = createAsyncThunk("cart/count", async()=>{
   try {
     const url = `${Api}/Shopinity/cart/count`
@@ -217,6 +246,19 @@ const cartSlice = createSlice({
         state.count = action.payload
       })
       .addCase(cartCount.rejected, (state, action) => {
+        state.cartLoading = false;
+        state.errMsg = action.error.message
+
+      })
+      .addCase(RemoveAllProductsFromCart.pending, (state) => {
+        state.cartLoading = true;
+      })
+      .addCase(RemoveAllProductsFromCart.fulfilled, (state, action) => {
+        state.cartLoading = false;
+        console.log(action.payload)
+        state.cartProducts = []
+      })
+      .addCase(RemoveAllProductsFromCart.rejected, (state, action) => {
         state.cartLoading = false;
         state.errMsg = action.error.message
 
