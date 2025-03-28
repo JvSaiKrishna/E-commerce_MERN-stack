@@ -3,7 +3,7 @@ import express from "express"
 import { userRegistration, userLogin } from "../collectors/userCollectors.js"
 import { GetAllProducts,GetProductById } from "../collectors/productCollectors.js"
 
-import { addToCart, getProductsToCart,updateProductQuantity,deleteProduct,cartCount } from "../collectors/cartCollectors.js"
+import { addToCart, getProductsToCart,updateProductQuantity,deleteProduct,cartCount, deleteAllProducts } from "../collectors/cartCollectors.js"
 import middleware from "../middleware.js"
 
 import { orderCreate, verifyPayment } from "../collectors/paymentCollectors.js"
@@ -20,7 +20,8 @@ router.get("/cart",middleware,getProductsToCart)
 router.put("/cart/:id",middleware,updateProductQuantity)
 router.delete("/cart/:id",middleware,deleteProduct)
 router.get("/cart/count",middleware,cartCount)
+router.delete("/cart",middleware,deleteAllProducts)
 
-router.post("/payment/create-order",orderCreate)
-router.post("/payment/verify-payment",verifyPayment)
+router.post("/payment/create-order",middleware,orderCreate)
+router.post("/payment/verify-payment",middleware,verifyPayment)
 export default router

@@ -77,4 +77,17 @@ const cartCount = async(req,res) =>{
     }
 }
 
-export { addToCart, getProductsToCart, updateProductQuantity, deleteProduct , cartCount }
+const deleteAllProducts = async(req,res)=>{
+    const {userId} = req
+    try {
+        await cart.deleteMany({userId})
+        const newList = await cart.find({ userId }).populate("productId")
+        res.status(200).json({ cartProducts: newList })
+        
+    } catch (error) {
+        res.status(500).json({message:"Internal serval problem"})
+        
+    }
+}
+
+export { addToCart, getProductsToCart, updateProductQuantity, deleteProduct , cartCount, deleteAllProducts }
