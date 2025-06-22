@@ -149,7 +149,7 @@ const Registration = () => {
                 <button disabled = {isLoading} className={`signup-button ${isLoading ? "btn-loading":"btn-not-loading"}`} type='submit'>{isLoading ? <span className="loader"></span> : "Sign Up"}</button>
                 {error && (<p className='error'>*{error}</p>)}<br />
 
-                <p>Already had Account?  <span>
+                <p>Already have Account?  <span>
                     <Link className='sign-in' to='/Shopinity/login'> Sign In</Link>
                 </span></p>
 
