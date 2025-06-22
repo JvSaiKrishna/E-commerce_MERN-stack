@@ -27,17 +27,17 @@ This is a full-stack **E-Commerce Web Application** built using the **MERN stack
 ## 🛠️ Installation & Setup
 
 ### **1️ Clone the repository**
-git clone https://github.com/your-username/mern-ecommerce.git
+git clone https://github.com/JvSaiKrishna/E-commerce_MERN-stack.git
 
 ### **2 Frontend**
 - cd Frontend/client
 - npm install
 - npm run dev  # Runs React app on localhost:3000
 
-### **3 Frontend**
+### **3 Backend**
 - cd Backend
 - npm install
-- npm run start  # Runs React app on localhost:3000
+- npm run start  # Runs React app on localhost:4000
 
 ### **4 Environment Variables**
 - Mongoose_url=your_mongodb_connection_string
