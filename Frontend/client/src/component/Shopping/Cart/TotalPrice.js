@@ -3,6 +3,7 @@ import "./cart.css"
 import { useSelector , useDispatch} from 'react-redux'
 import Cookies from "js-cookie"
 import { RemoveAllProductsFromCart } from '../CartSlice/CartSlice'
+import { Api } from '../../Api'
 
 const TotalPrice = () => {
   const { cartProducts } = useSelector((state) => state.cartCounter)
@@ -26,7 +27,7 @@ const TotalPrice = () => {
   const handlePayment = async (jwt,dispatch) => {
     setLoading(true);
 
-    const response = await fetch("http://localhost:4000/Shopinity/payment/create-order", {
+    const response = await fetch(`${Api}/Shopinity/payment/create-order`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +46,7 @@ const TotalPrice = () => {
       description: "Payment for Order",
       order_id: order.id,
       handler: async function (response) {
-        const verifyResponse = await fetch("http://localhost:4000/Shopinity/payment/verify-payment", {
+        const verifyResponse = await fetch(`${Api}/Shopinity/payment/verify-payment`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
