@@ -7,6 +7,9 @@ import { useDispatch } from "react-redux"
 import { cartCount, DecrementProductQuantity, FetchCartProducts, IncrementProductQuantity, RemoveProductFromCart } from '../CartSlice/CartSlice.js'
 import { useSelector } from 'react-redux'
 import TotalPrice from './TotalPrice.js'
+import Cookies from "js-cookie"
+import { Navigate } from 'react-router-dom'
+
 
 const Cart = () => {
   // const [cartProducts, setCartProducts] = useState([])
@@ -21,6 +24,11 @@ const Cart = () => {
   useEffect(() => {
     dispatch(cartCount())
   }, [dispatch, cartProducts])
+
+  const jwToken = Cookies.get('jwToken')
+  if (jwToken === undefined) {
+    return <Navigate to="/Shopinity/login" replace />
+  }
 
 
   const onIncrementQuantity = (id, products) => {
@@ -38,14 +46,14 @@ const Cart = () => {
   const renderProductsList = () => {
     return (
       <>
-        <div className={`container ${cartProducts?.length > 0 ? `cont-mar`:''}`}>
+        <div className={`container ${cartProducts?.length > 0 ? `cont-mar` : ''}`}>
           <div>
             <h2 className='cart-product-name'>Products Cart</h2>
 
             {cartProducts?.length !== 0 ?
-              <div key={Math.random()} className='cart-products-container'>
+              <div className='cart-products-container'>
                 {cartProducts?.map(each => {
-                  return (<>
+                  return (
                     <div key={each._id} className='cart-product-container'>
                       <div className='cart-product-img-container'>
 
@@ -80,7 +88,7 @@ const Cart = () => {
                       </div>
                     </div>
 
-                  </>)
+                  )
                 })}
 
               </div>

@@ -3,8 +3,6 @@ import { Api } from "../../Api"
 import Cookies from "js-cookie"
 
 
-const jwt = Cookies.get("jwToken")
-
 export const FetchCartProducts = createAsyncThunk('/cart', async () => {
   try {
     const url = `${Api}/Shopinity/cart`
@@ -12,7 +10,7 @@ export const FetchCartProducts = createAsyncThunk('/cart', async () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${jwt}`
+        Authorization: `Bearer ${Cookies.get("jwToken")}`
       }
     }
     const res = await fetch(url, options)
@@ -38,7 +36,7 @@ export const IncrementProductQuantity = createAsyncThunk("/cart/inc/:id", async 
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${jwt}`
+        "Authorization": `Bearer ${Cookies.get("jwToken")}`
       }
 
     }
@@ -71,7 +69,7 @@ export const DecrementProductQuantity = createAsyncThunk("/cart/dec/:id", async 
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${jwt}`
+          "Authorization": `Bearer ${Cookies.get("jwToken")}`
         }
 
       }
@@ -106,7 +104,7 @@ export const RemoveProductFromCart = createAsyncThunk("cart/:id/delete", async (
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${jwt}`
+        "Authorization": `Bearer ${Cookies.get("jwToken")}`
       }
 
     }
@@ -131,7 +129,7 @@ export const RemoveAllProductsFromCart = createAsyncThunk("cart/delete",async()=
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${jwt}`
+        "Authorization": `Bearer ${Cookies.get("jwToken")}`
       }
 
     }
@@ -160,7 +158,7 @@ export const cartCount = createAsyncThunk("cart/count", async()=>{
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${jwt}`
+        Authorization: `Bearer ${Cookies.get("jwToken")}`
       }
     }
     const res = await fetch(url, options)
@@ -255,7 +253,6 @@ const cartSlice = createSlice({
       })
       .addCase(RemoveAllProductsFromCart.fulfilled, (state, action) => {
         state.cartLoading = false;
-        console.log(action.payload)
         state.cartProducts = []
       })
       .addCase(RemoveAllProductsFromCart.rejected, (state, action) => {
