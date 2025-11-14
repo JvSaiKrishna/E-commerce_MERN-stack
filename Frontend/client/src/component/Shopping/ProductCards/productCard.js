@@ -6,8 +6,8 @@ export default function ProductCard(props) {
   const { title, brand, imageUrl, rating, price, id } = productData;
   // console.log(productData)
 
-  return (<>
-    <Link to={`/Shopinity/products/${id}`} className="product-item">
+  return (
+    <Link key={id} to={`/Shopinity/products/${id}`} className="product-item">
       <li >
         <div className='product-img-container'>
           <img src={imageUrl} alt="product" className="all-products-img" />
@@ -17,7 +17,7 @@ export default function ProductCard(props) {
 
           <h1 className="title">{title}</h1>
           <p className="brand">by {brand}</p>
-          <div className="product-details">
+          <div className="productCard-product-details">
             <p className="price">Rs {price}/-</p>
             <div className="rating-container">
               <p className="rating">{rating}</p>
@@ -31,7 +31,6 @@ export default function ProductCard(props) {
         </div>
       </li>
     </Link>
-  </>
 
   )
 }

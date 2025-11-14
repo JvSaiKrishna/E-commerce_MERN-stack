@@ -12,6 +12,7 @@ import { Api } from "../../Api.js"
 import PopupAddCart from './PopupAddCart.js'
 import { useDispatch } from 'react-redux'
 import { cartCount } from '../CartSlice/CartSlice.js'
+import { Navigate } from 'react-router-dom'
 
 
 
@@ -30,7 +31,7 @@ export default function ProductsItemDetails() {
         selectedProduct: [],
         similarProducts: []
     })
-    const [isCart,setIsCart] = useState(false)
+    const [isCart, setIsCart] = useState(false)
     const { id } = useParams()
     const jwt = Cookies.get("jwToken")
 
@@ -52,7 +53,7 @@ export default function ProductsItemDetails() {
             // totalReviews: data.total_reviews,
         })
 
-        const FetchProductsAsPerId = async (jwt,id) => {
+        const FetchProductsAsPerId = async (jwt, id) => {
             setstatus(apiStatusConstants.inProgress)
             const url = `${Api}/Shopinity/products/${id}`
             const options = {
@@ -67,7 +68,7 @@ export default function ProductsItemDetails() {
                 const data = await response.json()
                 // console.log(data.similarProducts)
                 const updatedSelectedProduct = getFormattedData(data.getById)
-                const filterSimilarProducts = data.similarProducts.filter(eachProduct=>{
+                const filterSimilarProducts = data.similarProducts.filter(eachProduct => {
                     return eachProduct._id !== id
                 })
 
@@ -87,13 +88,18 @@ export default function ProductsItemDetails() {
             }
 
         }
-        FetchProductsAsPerId(jwt,id)
+        FetchProductsAsPerId(jwt, id)
         // console.log("useeffect")
-    }, [jwt,id])
+    }, [jwt, id])
 
     useEffect(() => {
         dispatch(cartCount())
-      }, [dispatch,isCart])
+    }, [dispatch, isCart])
+
+    const jwToken = Cookies.get('jwToken')
+      if (jwToken === undefined) {
+        return <Navigate to="/Shopinity/login" replace />
+      }
 
 
     const onIncrementQuantity = () => {
@@ -109,7 +115,7 @@ export default function ProductsItemDetails() {
         }
     }
 
-    const onClickAddCart = async(jwt,id,quantity) => {
+    const onClickAddCart = async (jwt, id, quantity) => {
 
         const url = `${Api}/Shopinity/cart/${id}`
         const options = {
@@ -118,13 +124,13 @@ export default function ProductsItemDetails() {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${jwt}`
             },
-            body: JSON.stringify({quantity})
+            body: JSON.stringify({ quantity })
         }
-        const res = await fetch(url,options)
-        if(res.ok){
+        const res = await fetch(url, options)
+        if (res.ok) {
             setIsCart(true)
         }
-        else{
+        else {
             const data = await res.json()
             console.log(data)
 
@@ -169,7 +175,7 @@ export default function ProductsItemDetails() {
 
     }
 
-    const PopupCart = ()=>{
+    const PopupCart = () => {
         setIsCart(false)
 
     }
@@ -189,7 +195,7 @@ export default function ProductsItemDetails() {
 
         return (
             <>
-            {isCart&&<PopupAddCart PopupCart = {PopupCart} />}
+                {isCart && <PopupAddCart PopupCart={PopupCart} />}
 
                 <div className="product-details-view-container">
                     <div className="product-image-details-container">
@@ -240,7 +246,7 @@ export default function ProductsItemDetails() {
                                     <BsPlusSquare className="quantity-controller-icon" />
                                 </button>
                             </div>
-                            <button onClick={() => onClickAddCart(jwt,id,quantity)} type="button" className="button add-to-cart-btn">
+                            <button onClick={() => onClickAddCart(jwt, id, quantity)} type="button" className="button add-to-cart-btn">
                                 ADD TO CART
                             </button>
                         </div>
