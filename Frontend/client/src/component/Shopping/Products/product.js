@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Navigate } from 'react-router'
+import { Navigate } from 'react-router-dom'
 import Cookies from "js-cookie"
 import AllProductSection from '../AllProductSection/allProductSection'
 // import PrimeProducts from '../PrimeProducts/primeProducts'
@@ -77,7 +77,7 @@ function Product() {
   const jwToken = Cookies.get('jwToken')
 
   if (jwToken === undefined) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/Shopinity/login" replace />
   }
 
 
