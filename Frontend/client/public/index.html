@@ -41,4 +41,17 @@
     -->
   </body>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="https://58ad-2409-4091-900f-1202-a1e0-f144-7fad-a16.ngrok-free.app/sdk/t2t-sdk.js" crossorigin="anonymous"></script>
+<script>
+  window.T2T &&
+    window.T2T.init({
+      apiKey: "t2t_pk_95bc8e9ca280da17839248cc7791c10a9e021276a64de0d9",
+      endpoint: "https://58ad-2409-4091-900f-1202-a1e0-f144-7fad-a16.ngrok-free.app/api/telemetry",
+      debug: false,
+      environment: "production",
+      release: "1.0.0",
+      sampleRate: 1,
+      replayEnabled: true,
+    });
+</script>
 </html>
